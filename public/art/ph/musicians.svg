@@ -1,0 +1,25 @@
+<svg width="360" height="380" viewBox="0 0 360 380" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <g transform="translate(70,0)">
+      <rect x="-22" y="150" width="44" height="150" rx="18" fill="#0e7c7b"/>
+      <circle cx="0" cy="120" r="28" fill="#1c1510"/>
+      <path d="M-28,118 q28,-34 56,0 z" fill="#f4a300"/>
+      <ellipse cx="-30" cy="230" rx="34" ry="26" fill="#bc1e63"/>
+      <ellipse cx="-30" cy="230" rx="22" ry="16" fill="#f4ecda"/>
+    </g>
+    <g transform="translate(170,16)">
+      <rect x="-22" y="150" width="44" height="150" rx="18" fill="#bc1e63"/>
+      <circle cx="0" cy="120" r="28" fill="#1c1510"/>
+      <path d="M-28,118 q28,-34 56,0 z" fill="#26235c"/>
+      <ellipse cx="34" cy="230" rx="34" ry="26" fill="#0e7c7b"/>
+      <ellipse cx="34" cy="230" rx="22" ry="16" fill="#f4ecda"/>
+    </g>
+    <g transform="translate(280,4)">
+      <rect x="-22" y="150" width="44" height="150" rx="18" fill="#26235c"/>
+      <circle cx="0" cy="120" r="28" fill="#1c1510"/>
+      <path d="M-28,118 q28,-34 56,0 z" fill="#f4a300"/>
+      <ellipse cx="-30" cy="230" rx="32" ry="24" fill="#f4a300"/>
+      <ellipse cx="-30" cy="230" rx="20" ry="14" fill="#1c1510"/>
+    </g>
+  </g>
+</svg>

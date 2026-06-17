@@ -1,0 +1,12 @@
+<svg width="600" height="120" viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,30 Q150,90 300,30 T600,30" fill="none" stroke="#0e7c7b" stroke-width="3"/>
+  <g>
+    <g transform="translate(60,52)"><circle r="18" fill="#f4a300"/><circle r="9" fill="#e2402b"/></g>
+    <g transform="translate(150,74)"><circle r="20" fill="#f4a300"/><circle r="10" fill="#bc1e63"/></g>
+    <g transform="translate(240,64)"><circle r="18" fill="#f4a300"/><circle r="9" fill="#e2402b"/></g>
+    <g transform="translate(330,46)"><circle r="18" fill="#f4a300"/><circle r="9" fill="#bc1e63"/></g>
+    <g transform="translate(420,64)"><circle r="20" fill="#f4a300"/><circle r="10" fill="#e2402b"/></g>
+    <g transform="translate(510,74)"><circle r="18" fill="#f4a300"/><circle r="9" fill="#bc1e63"/></g>
+    <g transform="translate(585,52)"><circle r="18" fill="#f4a300"/><circle r="9" fill="#e2402b"/></g>
+  </g>
+</svg>

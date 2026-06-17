@@ -1,0 +1,36 @@
+<svg width="600" height="760" viewBox="0 0 600 760" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="760" fill="#bc1e63"/>
+  <rect x="18" y="18" width="564" height="724" fill="none" stroke="#f4ecda" stroke-width="3"/>
+  <rect x="28" y="28" width="544" height="704" fill="none" stroke="#f4ecda" stroke-width="1"/>
+  <g transform="translate(300,330)">
+    <g fill="#f4ecda">
+      <ellipse cx="0" cy="-70" rx="22" ry="70"/>
+      <ellipse cx="0" cy="-70" rx="22" ry="70" transform="rotate(40)"/>
+      <ellipse cx="0" cy="-70" rx="22" ry="70" transform="rotate(-40)"/>
+      <ellipse cx="0" cy="-70" rx="22" ry="70" transform="rotate(80)"/>
+      <ellipse cx="0" cy="-70" rx="22" ry="70" transform="rotate(-80)"/>
+    </g>
+    <g fill="#f4a300">
+      <ellipse cx="0" cy="-56" rx="16" ry="54"/>
+      <ellipse cx="0" cy="-56" rx="16" ry="54" transform="rotate(28)"/>
+      <ellipse cx="0" cy="-56" rx="16" ry="54" transform="rotate(-28)"/>
+      <ellipse cx="0" cy="-56" rx="16" ry="54" transform="rotate(56)"/>
+      <ellipse cx="0" cy="-56" rx="16" ry="54" transform="rotate(-56)"/>
+    </g>
+    <circle cx="0" cy="-30" r="20" fill="#e2402b"/>
+    <g fill="#26235c" opacity="0.8">
+      <circle cx="-8" cy="-34" r="3"/><circle cx="8" cy="-34" r="3"/><circle cx="0" cy="-26" r="3"/><circle cx="-6" cy="-22" r="3"/><circle cx="6" cy="-22" r="3"/>
+    </g>
+  </g>
+  <g stroke="#0e7c7b" stroke-width="4" fill="#117a74" opacity="0.85">
+    <ellipse cx="160" cy="470" rx="90" ry="26"/>
+    <ellipse cx="450" cy="500" rx="100" ry="28"/>
+    <ellipse cx="300" cy="540" rx="120" ry="30"/>
+  </g>
+  <g stroke="#0e7c7b" stroke-width="3" opacity="0.6">
+    <line x1="160" y1="450" x2="160" y2="360"/>
+    <line x1="450" y1="478" x2="450" y2="380"/>
+  </g>
+  <text x="300" y="700" text-anchor="middle" font-family="Georgia, serif" font-size="40" fill="#f4ecda">कमल</text>
+  <text x="300" y="724" text-anchor="middle" font-family="sans-serif" font-size="13" letter-spacing="4" fill="#f4ecda" opacity="0.7">LOTUS · MINIATURE</text>
+</svg>
