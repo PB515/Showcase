@@ -25,10 +25,24 @@ export function AuraStage() {
   const [visible, setVisible] = useState(false);  // pause render loop when off-screen
   const [lite, setLite] = useState(false);
 
+  // Gate on real WebGL support + Save-Data, NOT navigator.deviceMemory (Chrome
+  // privacy-caps it, wrongly suppressing the scene on capable desktops).
   useEffect(() => {
-    const c = navigator.hardwareConcurrency ?? 8;
-    const m = (navigator as unknown as { deviceMemory?: number }).deviceMemory ?? 8;
-    if (c <= 4 && m <= 4) setLite(true);
+    const conn = (navigator as unknown as { connection?: { saveData?: boolean } }).connection;
+    if (conn?.saveData) {
+      setLite(true);
+      return;
+    }
+    if ((navigator.hardwareConcurrency ?? 8) <= 2) {
+      setLite(true);
+      return;
+    }
+    try {
+      const cv = document.createElement("canvas");
+      if (!(cv.getContext("webgl2") || cv.getContext("webgl"))) setLite(true);
+    } catch {
+      setLite(true);
+    }
   }, []);
 
   useEffect(() => {

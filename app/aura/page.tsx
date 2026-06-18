@@ -38,14 +38,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="absolute inset-x-0 bottom-16 px-6 text-center">
+          <div className="pointer-events-none absolute inset-x-0 bottom-16 px-6 text-center">
             <Reveal>
               <h1 className="font-display text-5xl leading-tight text-ink md:text-7xl">
                 A scent you can see.
               </h1>
             </Reveal>
             <Reveal delay={0.15}>
-              <a href="#notes" className="mt-7 inline-block border-b border-ink/30 pb-1 font-body text-xs uppercase tracking-[0.3em] text-ink-soft transition-colors hover:text-ink">
+              <a href="#notes" className="pointer-events-auto mt-7 inline-block border-b border-ink/30 pb-1 font-body text-xs uppercase tracking-[0.3em] text-ink-soft transition-colors hover:text-ink">
                 Discover ↓
               </a>
             </Reveal>

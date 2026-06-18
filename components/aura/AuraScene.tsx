@@ -45,6 +45,9 @@ const frag = /* glsl */ `
     col=mix(col,uPeach,smoothstep(0.3,0.9,n2)*0.6);
     col=mix(col,uLilac,smoothstep(0.55,0.95,n1*n2)*0.7);
     col=mix(col,uTeal,smoothstep(0.7,1.0,n2)*0.35);
+    // soft vignette frames the bottle and adds depth instead of a flat wash
+    float vig = smoothstep(1.18, 0.22, length(vUv-0.5));
+    col *= mix(0.78, 1.05, vig);
     gl_FragColor=vec4(col,1.0);
   }`;
 
@@ -93,19 +96,21 @@ function Bottle({ reduce }: { reduce: boolean }) {
   return (
     <Float speed={reduce ? 0 : 1} rotationIntensity={reduce ? 0 : 0.15} floatIntensity={reduce ? 0 : 0.5}>
       <group>
-        <RoundedBox args={[1.0, 1.6, 0.45]} radius={0.1} smoothness={4} position={[0, -0.12, 0]}>
-          <meshStandardMaterial color="#e89bb0" roughness={0.35} transparent opacity={0.92} />
+        {/* liquid — fills the LOWER bottle so its surface sits below the label */}
+        <RoundedBox args={[1.0, 0.92, 0.45]} radius={0.1} smoothness={4} position={[0, -0.52, 0]}>
+          <meshStandardMaterial color="#e0729a" roughness={0.22} transparent opacity={0.96} />
         </RoundedBox>
         <RoundedBox args={[1.25, 1.95, 0.62]} radius={0.16} smoothness={5}>
           <MeshTransmissionMaterial
-            samples={3} resolution={128} transmission={1} thickness={0.5} roughness={0.2}
-            ior={1.33} chromaticAberration={0.03} distortion={0} temporalDistortion={0}
+            samples={4} resolution={128} transmission={1} thickness={0.5} roughness={0.16}
+            ior={1.34} chromaticAberration={0.045} distortion={0} temporalDistortion={0}
             color="#ffffff" attenuationColor="#f7c9c0" attenuationDistance={2.4}
           />
         </RoundedBox>
-        {/* printed label on the glass front */}
-        <mesh position={[0, -0.1, 0.315]}>
-          <planeGeometry args={[0.95, 0.72]} />
+        {/* printed label — sits ON the glass front (z just outside it) so the
+            transmission doesn't refract the text into mush */}
+        <mesh position={[0, 0.16, 0.345]}>
+          <planeGeometry args={[1.0, 0.56]} />
           <meshBasicMaterial map={label} transparent depthWrite={false} />
         </mesh>
         {/* neck + gold cap */}
@@ -151,21 +156,25 @@ export default function AuraScene({ active = true }: { active?: boolean }) {
       camera={{ position: [0, 0, 6], fov: 42 }}
       gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }}
     >
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[4, 6, 5]} intensity={1.4} color="#ffffff" />
+      <ambientLight intensity={0.65} />
+      <directionalLight position={[4, 6, 5]} intensity={1.7} color="#ffffff" />
+      {/* cool rim from behind — lights the glass edges so it reads 3D, not flat */}
+      <directionalLight position={[-4, 3, -5]} intensity={1.3} color="#cdb8e8" />
       <Environment resolution={256}>
-        <Lightformer position={[0, 3, 3]} scale={[8, 8, 1]} intensity={1.4} color="#ffffff" />
+        <Lightformer position={[0, 3, 3]} scale={[8, 8, 1]} intensity={1.5} color="#ffffff" />
         <Lightformer position={[-5, 1, 2]} scale={[3, 8, 1]} intensity={1.1} color="#cdb8e8" />
         <Lightformer position={[5, -1, 2]} scale={[3, 8, 1]} intensity={1.1} color="#f7c9c0" />
+        {/* bright bar behind the bottle → crisp edge highlight on the glass */}
+        <Lightformer position={[0, 0, -4]} scale={[4, 7, 1]} intensity={0.9} color="#ffffff" />
       </Environment>
       <GradientPlane />
       <PresentationControls
-        global={false}
+        global
         cursor
         snap
-        speed={1.4}
-        polar={[-0.35, 0.35]}
-        azimuth={[-0.8, 0.8]}
+        speed={1.6}
+        polar={[-0.5, 0.5]}
+        azimuth={[-1.2, 1.2]}
       >
         <Bottle reduce={!!reduce} />
       </PresentationControls>
