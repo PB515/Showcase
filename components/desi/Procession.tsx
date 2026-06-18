@@ -34,23 +34,43 @@ export function Procession() {
       if (reduce) return;
       const track = root.current?.querySelector(".proc-track") as HTMLElement | null;
       if (!track) return;
-      const dist = track.scrollWidth - window.innerWidth;
-      if (dist <= 0) return;
+
+      /* Distance is a FUNCTION, not a captured constant: the figure images set
+         the track width, and on the deployed site they aren't decoded yet when
+         this runs. invalidateOnRefresh + function-based end/x mean every
+         ScrollTrigger.refresh() recomputes against the real, loaded widths. */
+      const dist = () => Math.max(0, track.scrollWidth - window.innerWidth);
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: root.current,
           start: "top top",
-          end: "+=" + dist,
+          end: () => "+=" + dist(),
           scrub: 1,
           pin: ".proc-stage",
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
-      tl.to(".proc-track", { x: -dist, ease: "none" }, 0);
-      tl.to(".proc-bg", { x: -dist * 0.35, ease: "none" }, 0);
-      tl.to(".proc-fg", { x: -dist * 1.25, ease: "none" }, 0);
+      tl.to(".proc-track", { x: () => -dist(), ease: "none" }, 0);
+      tl.to(".proc-bg", { x: () => -dist() * 0.35, ease: "none" }, 0);
+      tl.to(".proc-fg", { x: () => -dist() * 1.25, ease: "none" }, 0);
+
+      /* Re-measure once the eager figure images actually finish loading. */
+      const imgs = Array.from(root.current!.querySelectorAll("img"));
+      let pending = imgs.filter((im) => !im.complete).length;
+      if (pending === 0) {
+        ScrollTrigger.refresh();
+      } else {
+        const done = () => {
+          if (--pending <= 0) ScrollTrigger.refresh();
+        };
+        imgs.forEach((im) => {
+          if (im.complete) return;
+          im.addEventListener("load", done, { once: true });
+          im.addEventListener("error", done, { once: true });
+        });
+      }
     },
     { scope: root, dependencies: [reduce] }
   );
@@ -63,7 +83,7 @@ export function Procession() {
         {/* skyline (slow) */}
         <div className="proc-bg absolute bottom-[26%] left-0 flex w-max items-end will-change-transform">
           {Array.from({ length: 7 }).map((_, i) => (
-            <ProcImg key={i} src="/art/bg-skyline.webp" fallback="/art/ph/skyline.svg" alt="" className="h-[34vh] w-auto opacity-90" />
+            <ProcImg key={i} eager src="/art/bg-skyline.webp" fallback="/art/ph/skyline.svg" alt="" className="h-[34vh] w-auto opacity-90" />
           ))}
         </div>
         {/* ground band */}
@@ -72,13 +92,13 @@ export function Procession() {
         {/* figures (1×) */}
         <div className="proc-track absolute bottom-[24%] left-0 flex w-max items-end gap-[7vw] pl-[10vw] pr-[10vw] will-change-transform">
           {FIGURES.map((f, i) => (
-            <ProcImg key={i} src={f.src} fallback={f.ph} alt={f.alt} className={`${f.h} w-auto`} />
+            <ProcImg key={i} eager src={f.src} fallback={f.ph} alt={f.alt} className={`${f.h} w-auto`} />
           ))}
         </div>
         {/* garland (fast foreground) */}
         <div className="proc-fg absolute bottom-[20%] left-0 flex w-max will-change-transform">
           {Array.from({ length: 26 }).map((_, i) => (
-            <ProcImg key={i} src="/art/garland.webp" fallback="/art/ph/garland.svg" alt="" className="h-[13vh] w-auto" />
+            <ProcImg key={i} eager src="/art/garland.webp" fallback="/art/ph/garland.svg" alt="" className="h-[13vh] w-auto" />
           ))}
         </div>
 

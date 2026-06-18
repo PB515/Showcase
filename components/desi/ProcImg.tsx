@@ -11,18 +11,23 @@ export function ProcImg({
   fallback,
   alt,
   className = "",
+  eager = false,
 }: {
   src: string;
   fallback: string;
   alt: string;
   className?: string;
+  /* The procession measures these images' widths to size its horizontal
+     scroll, so they must load up-front — lazy would leave them zero-width
+     (off-screen in the track) and the pin never sets up. */
+  eager?: boolean;
 }) {
   const [cur, setCur] = useState(src);
   return (
     <img
       src={cur}
       alt={alt}
-      loading="lazy"
+      loading={eager ? "eager" : "lazy"}
       decoding="async"
       draggable={false}
       onError={() => {
