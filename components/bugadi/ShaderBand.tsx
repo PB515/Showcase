@@ -8,19 +8,14 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useLite } from "./useLite";
 
 const ShaderScene = dynamic(() => import("./ShaderScene"), { ssr: false });
 
 export function ShaderBand({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
-  const [lite, setLite] = useState(false);
-
-  useEffect(() => {
-    const cores = navigator.hardwareConcurrency ?? 8;
-    const mem = (navigator as unknown as { deviceMemory?: number }).deviceMemory ?? 8;
-    if (cores <= 4 || mem <= 4) setLite(true);
-  }, []);
+  const lite = useLite();
 
   useEffect(() => {
     const el = ref.current;

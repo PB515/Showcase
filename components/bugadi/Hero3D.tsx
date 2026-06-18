@@ -14,6 +14,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
+import { useLite } from "./useLite";
 
 // Heavy 3D code is split out and only fetched when we render <Scene/>.
 const Scene = dynamic(() => import("./Hero3DScene"), { ssr: false });
@@ -37,14 +38,7 @@ export function Hero3D() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const [inView, setInView] = useState(false);
-  const [lite, setLite] = useState(false);
-
-  // Weak-device heuristic → never spin up WebGL, show the static panel.
-  useEffect(() => {
-    const cores = navigator.hardwareConcurrency ?? 8;
-    const mem = (navigator as unknown as { deviceMemory?: number }).deviceMemory ?? 8;
-    if (cores <= 4 || mem <= 4) setLite(true);
-  }, []);
+  const lite = useLite();
 
   // Mount the canvas only when the section nears the viewport.
   useEffect(() => {
